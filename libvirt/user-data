@@ -1,0 +1,11 @@
+#cloud-config
+users:
+  - name: lab
+    lock_passwd: false
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: users, admin
+    home: /home/lab
+    shell: /bin/bash
+    passwd: $6$EjbpK0cF$8xz8aw7iH0VAnaKbEBBvBFuBIYZS.AAcs2HEmeerW2c7qjMmaUnZwAv.gBHTsTFPV2DofVz38lb/nRQEkgaQD1
+    ssh_authorized_keys:
+      - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBA5trAyTsrk2l6lONJYVPOwgOuhRgyKR0bsg3ORG8lI+5BoUgbedMLQSmHjKud0P3COLuIS4OTLF9CCI9R0VNYc= lab@testlab 
