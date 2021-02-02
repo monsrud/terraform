@@ -12,7 +12,7 @@ provider "libvirt" {
 }
 
 resource "libvirt_volume" "centos7-qcow2" {
-  name = "centos7.qcow2"
+  name   = "centos7.qcow2"
   source = "https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2"
   format = "qcow2"
 }
@@ -26,7 +26,7 @@ data "template_file" "meta_data" {
 }
 
 resource "libvirt_cloudinit_disk" "commoninit" {
-  name = "commoninit.iso"
+  name      = "commoninit.iso"
   user_data = data.template_file.user_data.rendered
   meta_data = data.template_file.meta_data.rendered
 }
@@ -37,7 +37,7 @@ resource "libvirt_domain" "testlab" {
   vcpu   = 2
 
   network_interface {
-     network_name = "default"
+    network_name = "default"
   }
 
   disk {
@@ -47,15 +47,15 @@ resource "libvirt_domain" "testlab" {
   cloudinit = libvirt_cloudinit_disk.commoninit.id
 
   console {
-    type = "pty"
+    type        = "pty"
     target_type = "serial"
     target_port = "0"
   }
 
   graphics {
-    type = "spice"
+    type        = "spice"
     listen_type = "address"
-    autoport = true
+    autoport    = true
   }
 }
 
