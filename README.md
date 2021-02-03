@@ -4,6 +4,7 @@
 Practice using Terraform with various providers.
 
 * [libvirt](libvirt)
+* [vmware](vmware)
 
 
 ## Helpful information
