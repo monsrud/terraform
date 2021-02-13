@@ -1,0 +1,29 @@
+#cloud-config
+users:
+  - name: lab
+    lock_passwd: false
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: users, admin
+    home: /home/lab
+    shell: /bin/bash
+    passwd: $6$EjbpK0cF$8xz8aw7iH0VAnaKbEBBvBFuBIYZS.AAcs2HEmeerW2c7qjMmaUnZwAv.gBHTsTFPV2DofVz38lb/nRQEkgaQD1
+    #ssh_authorized_keys:
+    #  - ecdsa-sha2-nistp256 ... your key here 
+
+runcmd:
+  - apt update -y
+  - mkfs.ext4 /dev/vdb
+  - apt install -y apache2 qemu-guest-agent apt-mirror
+  - mkdir -p /var/spool/apt-mirror/mirror/archive.ubuntu.com/ubuntu
+  - echo "/dev/vdb /var/spool/apt-mirror ext4 defaults 0 0" >> /etc/fstab
+  - mount -a
+  - rm -rf /var/www/html
+  - ln -s /var/spool/apt-mirror/mirror/archive.ubuntu.com/ubuntu /var/www/html
+  - systemctl enable apache2
+  - systemctl start apache2
+  - systemctl enable qemu-guest-agent
+  - systemctl start qemu-guest-agent
+  - echo "deb http://archive.ubuntu.com/ubuntu focal main restricted universe multiverse" > /etc/apt/mirror.list
+  - apt-mirror
+
+
