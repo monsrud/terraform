@@ -6,10 +6,9 @@ Practice using Terraform with various providers.
 * [libvirt](libvirt)
 * [vmware](vmware)
 
-
 ## Helpful documentation and training 
 
-* [Learning Terraform](https://www.linkedin.com/learning/learning-terraform-)
+* [Learning Terraform](https://www.linkedin.com/learning/learning-terraform)
 * [Info on user-data]( https://gist.github.com/asvignesh/50a8c389bbeb549da8cf62f266f3daf2#file-user-data-L11)
 * [Great info on cloud-init]( https://sumit-ghosh.com/articles/create-vm-using-libvirt-cloud-images-cloud-init/)
 * [Cloud-Init: The good parts](https://www.hashicorp.com/resources/cloudinit-the-good-parts)
