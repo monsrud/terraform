@@ -8,12 +8,12 @@ terraform {
 }
 
 provider "libvirt" {
-  uri = "qemu:///system"
+  uri = "qemu+ssh://root@virty.onsrud.home/system" 
 }
 
 resource "libvirt_volume" "centos7-qcow2" {
   name   = "centos7.qcow2"
-  source = "https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2"
+  source = "http://kickstart.onsrud.home/CentOS-7-x86_64-GenericCloud.qcow2"
   format = "qcow2"
 }
 
@@ -21,14 +21,9 @@ data "template_file" "user_data" {
   template = file("${path.module}/user-data")
 }
 
-data "template_file" "meta_data" {
-  template = file("${path.module}/meta-data")
-}
-
 resource "libvirt_cloudinit_disk" "commoninit" {
   name      = "commoninit.iso"
   user_data = data.template_file.user_data.rendered
-  meta_data = data.template_file.meta_data.rendered
 }
 
 resource "libvirt_domain" "testlab" {
@@ -37,7 +32,7 @@ resource "libvirt_domain" "testlab" {
   vcpu   = 2
 
   network_interface {
-    network_name = "default"
+    macvtap = "eno1"
   }
 
   disk {
