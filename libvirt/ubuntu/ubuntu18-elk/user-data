@@ -28,7 +28,7 @@ write_files:
   - content: |
       # /etc/kibana/kibana.yml
       server.port: 5601
-      server.host: localhost
+      server.host: 0.0.0.0
       elasticsearch.hosts: [http://localhost:9200]
     permissions: '0644'
     path: /tmp/kibana.yml
