@@ -1,0 +1,59 @@
+#cloud-config
+users:
+  - name: lab
+    lock_passwd: false
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: users, admin
+    home: /home/lab
+    shell: /bin/bash
+    passwd: $6$EjbpK0cF$8xz8aw7iH0VAnaKbEBBvBFuBIYZS.AAcs2HEmeerW2c7qjMmaUnZwAv.gBHTsTFPV2DofVz38lb/nRQEkgaQD1
+    #ssh_authorized_keys:
+    #  - ecdsa-sha2-nistp256 ... your key here 
+
+growpart:
+  mode: auto
+  devices: ['/']
+
+write_files:
+  - content: |
+      # /etc/elasticsearch/elasticsearch.yml
+      path.data: /var/lib/elasticsearch
+      path.logs: /var/log/elasticsearch
+      network.host: localhost
+      http.port: 9200
+      discovery.type: single-node
+    permissions: '0644'
+    path: /tmp/elasticsearch.yml
+
+  - content: |
+      # /etc/kibana/kibana.yml
+      server.port: 5601
+      server.host: localhost
+      elasticsearch.hosts: [http://localhost:9200]
+    permissions: '0644'
+    path: /tmp/kibana.yml
+
+  - content: |
+      apt update -y
+      apt install -y wget qemu-guest-agent openjdk-11-jre apt-transport-https nginx
+      wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+      echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee –a /etc/apt/sources.list.d/elastic-7.x.list
+      apt update -y
+      apt install -y elasticsearch logstash kibana
+      mv -f /tmp/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
+      mv -f /tmp/kibana.yml /etc/kibana/kibana.yml
+      systemctl enable qemu-guest-agent
+      systemctl start qemu-guest-agent
+      systemctl enable elasticsearch
+      systemctl start elasticsearch
+      systemctl enable logstash
+      systemctl start logstash
+      systemctl enable kibana 
+      systemctl start kibana
+    permissions: '0777'
+    path: /tmp/setup.sh
+
+runcmd:
+  - bash /tmp/setup.sh
+
+
