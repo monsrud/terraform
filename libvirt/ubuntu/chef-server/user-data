@@ -1,0 +1,33 @@
+#cloud-config
+hostname: chef-server
+users:
+  - name: lab
+    lock_passwd: false
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: users, admin
+    home: /home/lab
+    shell: /bin/bash
+    passwd: $6$EjbpK0cF$8xz8aw7iH0VAnaKbEBBvBFuBIYZS.AAcs2HEmeerW2c7qjMmaUnZwAv.gBHTsTFPV2DofVz38lb/nRQEkgaQD1
+    #ssh_authorized_keys:
+    #  - ecdsa-sha2-nistp256 ... your key here 
+
+growpart:
+  mode: auto
+  devices: ['/']
+
+write_files:
+
+  - content: |
+      apt update -y
+      apt install -y wget curl 
+      wget https://packages.chef.io/files/stable/chef-server/14.1.0/ubuntu/18.04/chef-server-core_14.1.0-1_amd64.deb
+      dpkg -i chef-server-core_14.1.0-1_amd64.deb
+      chef-server-ctl reconfigure --chef-license=accept 
+    
+    permissions: '0777'
+    path: /tmp/setup.sh
+
+runcmd:
+  - bash /tmp/setup.sh
+
+
