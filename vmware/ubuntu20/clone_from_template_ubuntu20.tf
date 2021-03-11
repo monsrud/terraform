@@ -36,12 +36,12 @@ data "vsphere_network" "network1" {
 }
 
 data "vsphere_network" "network2" {
-  name          = "VLAN 1691"
+  name          = "VLAN 1693"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
 data "vsphere_virtual_machine" "template" {
-  name          = "ubuntu18-thin-esx3-template"
+  name          = "ubuntu20-template-latest"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
@@ -51,8 +51,8 @@ resource "vsphere_virtual_machine" "vm" {
   resource_pool_id = data.vsphere_resource_pool.pool.id
   datastore_id     = data.vsphere_datastore.datastore.id
 
-  num_cpus = 2
-  memory   = 2048
+  num_cpus = 4
+  memory   = 4096 
 
   guest_id  = data.vsphere_virtual_machine.template.guest_id
   scsi_type = data.vsphere_virtual_machine.template.scsi_type
