@@ -1,0 +1,29 @@
+#cloud-config
+users:
+  - name: lab
+    lock_passwd: false
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: users, admin
+    home: /home/lab
+    shell: /bin/bash
+    passwd: $6$EjbpK0cF$8xz8aw7iH0VAnaKbEBBvBFuBIYZS.AAcs2HEmeerW2c7qjMmaUnZwAv.gBHTsTFPV2DofVz38lb/nRQEkgaQD1
+    #ssh_authorized_keys:
+    #  - ecdsa-sha2-nistp256 ... your key here 
+
+growpart:
+  mode: auto
+  devices: ['/']
+
+write_files:
+
+  - content: |
+      apt update -y
+      apt install -y wget qemu-guest-agent 
+      apt update -y
+    permissions: '0777'
+    path: /tmp/setup.sh
+
+runcmd:
+  - bash /tmp/setup.sh
+
+

@@ -18,6 +18,4 @@ Practice using Terraform with various providers.
 * [Cloud-Init Documentation](https://cloudinit.readthedocs.io/en/latest/)
 * [Cloud-Init : Bluilding Clouds One Linux Box at a Time](https://cloudinit.readthedocs.io/en/latest/)
 * [Cloud-Init: The good parts](https://www.hashicorp.com/resources/cloudinit-the-good-parts)
-
-
-
+* [Variable Interpolation within User-data](https://grantorchard.com/dynamic-cloudinit-content-with-terraform-file-templates/)
