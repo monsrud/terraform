@@ -10,7 +10,19 @@ users:
     #ssh_authorized_keys:
     #  - ecdsa-sha2-nistp256 ... your key here 
 
+growpart:
+  mode: auto
+  devices: ['/']
+
+write_files:
+  - content: |
+      apt update -y
+      apt install -y wget qemu-guest-agent
+      systemctl start qemu-guest-agent
+      sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+      systemctl restart ssh
+    permissions: '0777'
+    path: /tmp/setup.sh
+
 runcmd:
-  - apt update -y
-  - apt install -y qemu-guest-agent
-  - systemctl-start qemu-guest-agent
+  - bash /tmp/setup.sh 
